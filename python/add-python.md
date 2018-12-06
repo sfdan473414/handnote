@@ -1,6 +1,7 @@
 # add python to branch
 change this file 
 this is a test for changing file
+<<<<<<< ours
 display uncommit file with changed file
 
 使用git的三个步骤：
