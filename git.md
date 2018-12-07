@@ -17,7 +17,7 @@ Basic git command!
   在进行查看status状态之前，需要先了解下git的状态转移情形。
   <br/>
   <br/>
-  ![Git File Status Lifecycle](./image/git_file_status_lifecycle.png "File Status Lifecycle")
+  ![Git File Status Lifecycle](../image/git_file_status_lifecycle.png "File Status Lifecycle")
   <br/>
   untracked: 表示文件还未被追踪,简称  `U`.  
   unmodified: 表示文件未被修改  
