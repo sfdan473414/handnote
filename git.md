@@ -34,19 +34,20 @@ modified: 对unmodified状态的文件进行修改，变成了该状态..
 staged : 表示文件处于暂存状态，还未提交.  
 在当前的分支执行：<code>  git status  </code>  
 <img src="./image/git_status_untracked.png"/>  
-如果看到了`Untracked files:`字样，表示以下文件还未被追踪。你可以使用`git add <file>`来添加进行追踪，使之变为个状态。 
+如果看到了`Untracked files:`字样，表示以下文件还未被追踪。你可以使用`git add <file>`来添加进行追踪，使之变为个状态。  
 执行命令：<code>  git add git.md  </code>  
 然后执行命令：<code>  git status  </code>  
 <img src="./image/git_status_staged.png"/>  
 如果看到了`Changes to be committed:`字样，表示下列文件被追踪，且当前的状态为`staged`(暂存状态)。  
 如果对暂存的文件进行修改`git.md`，再次执行命令:<code class="git">  git status  </code>  
 <br/>
-<img src="./image/git_status_staged_modify.png" alt="File Staged Modify">
+<img src="./image/git_status_staged_modify.png" alt="File Staged Modify">  
 这里你会看到文件状态，一个是已经进行了暂存但是还未提交`Changes to be committed:`，另一个是对暂存的文件进行了修改还未进行暂存`Changes not staged for commit:`, 如果此时执行提交命令`commit`,那么对于暂存的文件进行了修改还未进行暂存的文件内容不会被提交，仅仅提交了上一次暂存的文件内容。如果需要暂存文件，根据上述的命令提示执行`git add <file>`即可。此时的文件状态变为了`staged`(即标识符为`Changes to be committed:`状态).
 
 ### 提交文件或目录
 
 > git commit -m "msg"
+
 `-m "msg"`为可选的项目，如果不指定将采用配置中默认的文本编辑器来编辑提交信息。如果想要在某个分支下提交，则先要切换到指定分支再执行。
 
 ### 创建分支
