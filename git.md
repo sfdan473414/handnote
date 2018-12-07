@@ -17,9 +17,9 @@ Basic git command!
   在进行查看status状态之前，需要先了解下git的状态转移情形。
   <br/>
   <br/>
-  ![Git File Status Lifecycle](../image/git_file_status_lifecycle.png "File Status Lifecycle")
+  ![Git File Status Lifecycle](https://github.com/sfdan473414/handnote/blob/master/image/git_status_staged.png "File Status Lifecycle")
   <br/>
-  untracked: 表示文件还未被追踪,简称  `U`.  
+  untracked: 表示文件还未被追踪,简称  <code>U</code>.  
   unmodified: 表示文件未被修改  
   modified: 对unmodified状态的文件进行修改，变成了该状态，简称  `M`.  
   staged : 表示文件处于暂存状态，还未提交。  
