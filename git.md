@@ -1,33 +1,34 @@
 Basic git command! 
 
-### git 克隆
-  + 使用ssh进行克隆
+### git克隆
+
++ 使用ssh进行克隆
     > git clone git@github.com:owener/xxx.git
-  + 使用https进行克隆
++ 使用https进行克隆
     > git clone https://github.com/srccodes/hadoop-common-2.2.0-bin.git
 
 ### git 克隆指定的分支
+
   > git clone -b {branch-name} {git-address}  
+
     example: git clone -b handnote-python https://github.com/sfdan473414/handnote.git  
+
     example: git clone -b handnote-python git@github.com:sfdan473414/handnote.git  
 
 ### 查看当前分支文件或目录的状态
+
   > git status  
-<br/>
+
 在进行查看status状态之前，需要先了解下git的状态转移情形。
-<br/>
-<br/>
+
 <img src="./image/git_status_staged.png" alt="File Status Lifecycle">
-<br/>
-untracked: 表示文件还未被追踪,简称  <code>U</code>.  
-unmodified: 表示文件未被修改  
-modified: 对unmodified状态的文件进行修改，变成了该状态，简称  `M`.  
-staged : 表示文件处于暂存状态，还未提交。  
-<br/>
+
+untracked: 表示文件还未被追踪.  
+unmodified: 表示文件未被修改.  
+modified: 对unmodified状态的文件进行修改，变成了该状态..  
+staged : 表示文件处于暂存状态，还未提交.  
 在当前的分支执行：<code>  git status  </code>  
-<br/>
 <img src="./image/git_status_untracked.png"/>  
-<br>
 如果看到了`Untracked files:`字样，表示以下文件还未被追踪。你可以使用`git add <file>`来添加进行追踪，使之变为个状态。 
 执行命令：<code>  git add git.md  </code>  
 然后执行命令：<code>  git status  </code>  
