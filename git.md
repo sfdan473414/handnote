@@ -17,7 +17,7 @@ Basic git command!
   在进行查看status状态之前，需要先了解下git的状态转移情形。
   <br/>
   <br/>
-  ![Git File Status Lifecycle](https://github.com/sfdan473414/handnote/blob/master/image/git_status_staged.png "File Status Lifecycle")
+  <img src="./image/git_status_staged.png" alt="File Status Lifecycle">
   <br/>
   untracked: 表示文件还未被追踪,简称  <code>U</code>.  
   unmodified: 表示文件未被修改  
@@ -35,7 +35,7 @@ Basic git command!
   如果看到了`Changes to be committed:`字样，表示下列文件被追踪，且当前的状态为`staged`(暂存状态)。  
   如果对暂存的文件进行修改`git.md`，再次执行命令:<code class="git">  git status  </code>  
   <br/>
-  ![File Staged Modify](./image/git_status_staged_modify.png)  
+  <img src="./image/git_status_staged_modify.png" alt="File Staged Modify">
   这里你会看到文件状态，一个是已经进行了暂存但是还未提交`Changes to be committed:`，另一个是对暂存的文件进行了修改还未进行暂存`Changes not staged for commit:`, 如果此时执行提交命令`commit`,那么对于暂存的文件进行了修改还未进行暂存的文件内容不会被提交，仅仅提交了上一次暂存的文件内容。如果需要暂存文件，根据上述的命令提示执行`git add <file>`即可。此时的文件状态变为了`staged`(即标识符为`Changes to be committed:`状态).
   
 
