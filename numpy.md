@@ -217,7 +217,7 @@ x1[0]=3.14 # this will be truncated!
 
 在上小结当中通过中括号+索引的方式访问元素时仅能获取一个元素，如果要获取多个元素这种方式不太适用。另外一种读取数组的方式是采用`分片`.数组的分片与python中list的分片非常的相似。其基本语法为：
 
-<center> x[start:end:step]</center>
+<center> <pre>x[start:end:step]</pre></center>
 
 其中：x为数组名称，start 为切片的起始位置，end 为切片的结束位置，step 为从start位置开始到end结束，中间以step进行创建一个序列。那么在数组读取时按照序列的索引进行读取。切片读取也可以被称之为读取子数组。每次使用切片时只获取了满足条件的部分数组元素。对于这三个参数如果不指定的话将采用默认值，其中 start =0 ， stop= 维度的大小，step=1.注意的是在end位置的元素不会被读取即[start,end).
 
@@ -501,7 +501,7 @@ M.max(axis=1)
 ```
 
 下面的列表列举了常用的聚合操作函数:  
-![Aggregation functions]("./image/np_ufuncs_aggregation_func.png" "Aggregation functions available in NumPy")
+![Aggregation functions](./image/np_ufuncs_aggregation_func.png "Aggregation functions available in NumPy")
 
 小结：数组的聚合操作主要用于对数组的统计，通过数组的统计能够快速的了解数组的分布特征或计算其他可用指标。
 
