@@ -41,7 +41,7 @@ np.array([range(i, i + 3) for i in [2, 4, 6]])
 关于`numpy`的数据类型可支持的包括：
 
 <!-- ![Numpy可支持的标准数据类型 ](./image/arr_data_type.png) -->
-<img src="./image/arr_data_type.png" width="50%" height="60%">
+<img src="../image/arr_data_type.png" width="50%" height="60%">
 
 从`numpy`中自带的一些方法来创建数组，这些方法比较的常用：  
 
@@ -475,7 +475,7 @@ ufuncs, which operate on two inputs.</i>.
 
 下列列表展示了`ufuncs`常用的操作:  
 
-![Arithmetic operators](./image/np_ufuncs_arithmetic_operators.png "Arithmetic operators implemented in NumPy")
+![Arithmetic operators](../image/np_ufuncs_arithmetic_operators.png "Arithmetic operators implemented in NumPy")
 
 小结：关于`ufuncs`最重要的是理解数组向量化操作，向量化操作与loop操作相比在计算时能够大幅度的提升计算效率。关于更多的向量化操作请参考`numpy`的官方的[文档](https://docs.scipy.org/doc/numpy-1.15.4/reference/ufuncs.html#ufunc "ufuncs").关于`ufuncs`还需要额外的注意几个地方：(1)  指定输出数组。在进行大规模的数据计算时可能需要将计算的结果进行存储，而不是创建一个临时的数组。`nfuncs`提供了一个参数`out`可以将计算结果直接输出到你已经创建好的数组当中。
 
@@ -501,7 +501,7 @@ M.max(axis=1)
 ```
 
 下面的列表列举了常用的聚合操作函数:  
-![Aggregation functions](./image/np_ufuncs_aggregation_func.png "Aggregation functions available in NumPy")
+![Aggregation functions](../image/np_ufuncs_aggregation_func.png "Aggregation functions available in NumPy")
 
 小结：数组的聚合操作主要用于对数组的统计，通过数组的统计能够快速的了解数组的分布特征或计算其他可用指标。
 
