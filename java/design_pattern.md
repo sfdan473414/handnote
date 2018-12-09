@@ -139,5 +139,13 @@ promotionType match{
 * 应用场景
 * 模式对比
 
-
 # 附录：面向对象基本概念与知识
+
+* 类(Class)
+  
+* 接口(Interface)
+* 继承(Inheritance)
+* 关联(Association)
+* 聚合(Aggregation)
+* 组成(Composition)
+* 依赖(Dependency)
