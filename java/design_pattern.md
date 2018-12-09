@@ -13,7 +13,7 @@ Note: 设计模式
 * 案例分析  
   假设要从不同的数据源去读取数据，不同的数据源读取数据的接口不一致，客户端程序只能够获取数据源的名称，然后根据数据源的名称返回读取的数据。考虑到可以使用封装、继承和多态特性，将读取数据源封装为一个类。数据源抽象类名称为:DataSource.  
 
-抽象类：DataSource 
+抽象类：DataSource  
 
 ```scala
 abstract class DataSource{
@@ -113,5 +113,31 @@ println(content)
 
 * 模式对比  
   暂时没有可比较的设计模式。
+
+# 策略设计模式
+
+* 基本思想
+  策略模式是一系列算法的实现，这些算法完成相同的工作(针对同一个问题)，只是算法的实现细节不同。
+* 案例分析
+  商场为了吸引用户购物在双12期间推出了各种的促销活动如满500减200、品牌时尚服装打8折等，这些活动的是针对促销一件事情即在原来的价格之上做了调整。因此针对不同的促销方式需要分别计算最终的支付价格。一种很自然的编码方式是使用`case`语句进行活动匹配，然后计算相应的价格进行返回。基本的代码的如下:  
+
+```scala
+
+var originPrice:Double=1256.02
+val promotionType="满500减200"
+promotionType match{
+    case "满500减200"=> if(originPrice>=500){
+        originPrice= orginPrice - (originPrice/500).toInt * 200
+    }
+    case "8折" => originPrice = originPrice * 0.8
+    case "7折" => originPrice = originPrice * 0.7
+    case "5折" => originPrice = originPrice * 0.5
+    case _=> println(s"Unsupport promotion type : $promotionType !")
+}
+```
+
+* 应用场景
+* 模式对比
+
 
 # 附录：面向对象基本概念与知识
