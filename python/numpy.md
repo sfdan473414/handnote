@@ -41,7 +41,7 @@ np.array([range(i, i + 3) for i in [2, 4, 6]])
 关于`numpy`的数据类型可支持的包括：
 
 <!-- ![Numpy可支持的标准数据类型 ](./image/arr_data_type.png) -->
-<img src="../image/arr_data_type.png" width="50%" height="60%">
+<img src="../image/arr_data_type.png" width="70%" height="80%">
 
 从`numpy`中自带的一些方法来创建数组，这些方法比较的常用：  
 
@@ -506,6 +506,8 @@ M.max(axis=1)
 小结：数组的聚合操作主要用于对数组的统计，通过数组的统计能够快速的了解数组的分布特征或计算其他可用指标。
 
 # <span id="np-broadcast">广播(Broadcasting)</span>
+
+在`numpy`中数组的广播是比较常用，尤其在计算矩阵时表现的更为明显。广播也可以被看作是另外一种向量化操作，在二元的`ufuncs`计算中可以计算不同尺寸大小的数组，如 add,sub,multi,div等。广播(*Broadcasting*)允许这些二元类型的操作在不同数组size上被执行。在数组广播时，能够满足不同size的数组进行'对齐'，但是在实际的数组并没有发生元u世俗的复制。
 
 # <span id="np-sorting">排序(Sorting)</span>
 
