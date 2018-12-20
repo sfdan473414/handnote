@@ -24,7 +24,7 @@ file /home/hadoop/apps/hadoop-2.8.4/lib/native/libhadoop.so.1.0.0
 
 ```
 
-说明`zlib`、`snappy`和`bzip2`不满足条件，另外也可以查看`${HADOOP_HOME}lib/native/libhadoop.so.1.0.0`文件是否是64位的。因此如果直接启动DataNode必然会报错的。另外在网上下载的别人已经编译好的native文件替代发现还是无法启动DataNode。于是自己就对Hadoop的源码做了编译。(这只是一种解决方式，可能还有另外的解决办法。).关于如何Hadoop的源码参考另一篇文章[Centos 6.10 编译Hadoop-2.8.4源码](handnote/hadoop/hadoop-compile-linux-x64.md '64位Centos编译hadoop-2.8.4源码').将的native文件替换原有的`${HADOOP_HOME}lib/native`目录下的文件。替换完成后重新启动DataNode节点.  
+说明`zlib`、`snappy`和`bzip2`不满足条件，另外也可以查看`${HADOOP_HOME}lib/native/libhadoop.so.1.0.0`文件是否是64位的。因此如果直接启动DataNode必然会报错的。另外在网上下载的别人已经编译好的native文件替代发现还是无法启动DataNode。于是自己就对Hadoop的源码做了编译。(这只是一种解决方式，可能还有另外的解决办法。).关于如何Hadoop的源码参考另一篇文章[Centos 6.10 编译Hadoop-2.8.4源码](./hadoop-compile-linux-x64.md '64位Centos编译hadoop-2.8.4源码').将的native文件替换原有的`${HADOOP_HOME}lib/native`目录下的文件。替换完成后重新启动DataNode节点.  
 
 理论上讲这时候DataNode应该能够启动成功(如果你启动成功就恭喜你了!)，但是对于我的集群环境而言启动仍旧失败，这是令人比较费解的。因此在`/etc/profile`中手动的指定了native的目录路径(需要使用`source /etc/profile`),配置如下:
 
