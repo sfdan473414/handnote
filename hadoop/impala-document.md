@@ -73,3 +73,43 @@ Impala的语法支持的语法是HiveQL语句、数据类型和内建方法的�
 关于表的定义的相关信息，Impala使用一种叫做`metastore`的中心数据库来维持。对于拥有大量数据或很多分区的表而言，检索表的元数据需要花费很多时间，因此Impala的每个节点缓存了表的元数据以便将来查询相同表时能够重用元数据。在Impala 1.2版本以及更高的版本通过Impala发布的所有的DDL和DML语句，Impala节点上的元数据是自动更新的，这种更新方式通过`catalogd`守护进程来协调的。如果表中的数据或表的定义被更新了，在对这个表发布查询之前，所有的其他Impala守护进程必须要接收最新的元数据以替代老的缓存元数据。  
 
 对于通过Hive发布的DDL和DML或者手动更改了HDFS中的文件，那么还需要使用`REFRESH`语句(当向已存在表中添加新的数据文件时)或`INVALIDATE METADATA`语句(对于全新的表，或删除表，对HDFS执行负载均衡操作、或删除数据文件等)来更新元数据.通过发布`INVALIDATE METADATA`方式，它自身会检索由Metastore跟踪的所有表的元数据。如果你知道哪些表被Impala以外的操作更新，你可以为每个受影响的表发出`REFRESH table_name`以仅检索这些表的最新元数据。
+
+## Guidelines for Designing Impala Schemas
+
+* 相对基于文本格式，首选二进制格式(Prefer binary file formats over text-based formats)
+
+  为了能够节约内存空间及提升内存的使用率和查询性能，对于任何大表或密集查询的表使用二进制文件格式。你可能已经接触到了HaoopETL中的一部分，对于数据仓库风格的查询分析，Parquet文件格式是最高效的，此外Avro是Impala支持的另一种二进制文件格式.  
+
+  尽管Impala能够使用RCFile和SequenceFile的格式创建表和查询表，由于这些格式是基于文本格式的，使用这些存储格式的表相对比较'笨重'(占用空间大且查询效率低下)。此外这些格式是面向行存储的，对于数据仓库的查询这些表也没有被优化。使用这些存储格式的表，Impala不支持`INSERT`操作.  
+
+  如何选择合适的存储格式是Impala执行高效查询的关键,下面给出一些指导建议:
+  + 对于表比较大、执行性能要求严格且高效可扩展的，使用Parquet文件格式。
+  + 为了在ETL处理过程中传送中间数据给其他Hadoop组件，这样的数据存储格式Avro是比较合理的选择。
+  + 为了方便的导入原始数据，使用文本数据表替代RCFile和SequenceFile格式，在后续的ETL处理过程中再转换未Parquet格式.
+
+* 生产实践中使用Snappy压缩(Use Snappy compression where practical)
+  
+  Snappy压缩在进行解压缩时消耗比较低的CPU，且能够节省大量的存储空间。如果您可以选择压缩编解码器（例如Parquet和Avro文件格式），请使用Snappy压缩，除非您找到使用其他编解码器的令人信服的理由。
+
+* 相对于String，优选Numeric类型(Prefer numeric types over strings)
+  
+  如果有些数值类型可以被看做是string类型或者数字类型(例如年、月、日等)，把它们定义为最小的适用整数类型。例如年可以设置为SMALLINT,月份和日设置为TINYINT。尽管你可能看不到分区表或文本文件在磁盘上的布局方式有任何区别，但是使用数字类型在使用二进制格式（如Parquet）存储时会节省空间，并在执行查询时节省内存，尤其是资源密集型查询（如连接）。
+
+* 分区但是不要过度(Partition, but do not over-partition)
+  
+  分区是Impala调优过程中重要的一部分，如果你是从传统数据库系统转过来的或者刚进入大数据领域，在你原有的分区模式中可能没有足够量的大数据来展现Impala并行查询的优势。比如，如果你每天产生的数据量大于几十MB，采用YEAR、MONTH、DAY的方式进行分区太过细化。针对一天的数据集群中的大多数据节点在查询过程中可能处于空闲状态或者每个节点计算时间比较少。这个时候可以考虑减少分区的列key，为了让每个分区目录包含大约有几个GB的数据。再如，假设每个数据文件是Parquet表且恰巧为1个HDFS块(块的最大值为1GB)。如果你有10个节点的集群，你需要10个这样的数据文件给每个节点来执行查询工作。但是每台机器上的每个核心都可以并行处理单独的数据块。对于拥有10个节点且机器核心数据为16的集群，每次查询能够并行的处理高达160GB数据。 如果每个分区只有少量数据文件，则不仅大多数群集节点在查询期间处于空闲状态，那么这些机器上的大多数核心也处于空闲状态。你可减少Parquet块的大小到128M或者是64MB，以此来增加每个分区的文件数量且提升了并行度。但也要考虑降低分区的程度，以便分析查询有足够的数据可以使用。
+
+* 在加载数据后总是计算stats(Always compute stats after loading data.)
+  
+  在整个表和表中每一列，Impala充分的的使用这些数据的统计信息为了能够为密集型操作(例如join操作)制定合适的执行计划。由于这个统计信息仅在加载数据后可用，因此对一个表或者分区在加载数据或替换数据后需要运行`COMPUTE STATS`语句来进行数据信息统计。拥有精准的统计信息在成功执行操作和失败(由于内存溢出或超时引起的失败)之间有很大差异.当你遇到了性能或容量问题，请使用`SHOW STATS`语句来检测是否所有的表在查询时的统计信息是否达到最新。
+
+## HiveQL Features not Available in Impala
+
+有些的HiveQL特征在当前的Impala版本中不受支持：
+
+- `TRANSFORM`、自定义文件格式、自定义SerDes.
+- `DATE`数据类型
+- XML和JSON功能
+- 一些聚合函数：covar_pop, covar_samp, corr, percentile,percentile_approx, histogram_numeric, collect_set
+- 抽样
+- 每个查询有多个DISTINCT子句
