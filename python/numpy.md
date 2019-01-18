@@ -507,7 +507,60 @@ M.max(axis=1)
 
 # <span id="np-broadcast">广播(Broadcasting)</span>
 
-在`numpy`中数组的广播是比较常用，尤其在计算矩阵时表现的更为明显。广播也可以被看作是另外一种向量化操作，在二元的`ufuncs`计算中可以计算不同尺寸大小的数组，如 add,sub,multi,div等。广播(*Broadcasting*)允许这些二元类型的操作在不同数组size上被执行。在数组广播时，能够满足不同size的数组进行'对齐'，但是在实际的数组并没有发生元u世俗的复制。
+在`numpy`中数组的广播是比较常用，尤其在计算矩阵时表现的更为明显。广播也可以被看作是另外一种向量化操作，在二元的`ufuncs`计算中可以计算不同尺寸大小的数组，如 add,sub,multi,div等。广播(*Broadcasting*)允许这些二元操作的数组大小不同，在数组广播时，能够满足不同size的数组进行'对齐'，但是在实际的数组并没有发生元素值的复制操作，这也是我们所期望的。
+
+示例：使用一个数组和一个数字
+
+```python
+import numpy as np
+a= np.array([1,2,3])
+b=a+5
+# out: [6,7,8]
+```
+
+示例2：一维数组和二维数组
+
+```python
+import numpy as np
+
+x=np.ones((3,3))
+a=np.array([1,2,3])
+print(x+a)
+# [[2. 3. 4.]
+#  [2. 3. 4.]
+#  [2. 3. 4.]]
+```
+
+从结果上看`x`是二维数组和`a`是一维数组，`x+a`进行加法操作时得到的是二维数组，表明了`a`被拉伸了，在维度上同`x`是一致的，由于两个数组的列数一致，数组`a`的行数被拉伸到了同数组`x`的行数一致，这样才能进行数组运算。
+
+示例: 行数组和列数组运算
+
+```python
+import numpy as np
+
+a = np.arange(3)
+b = np.arange(3)[:, np.newaxis]
+a+b
+# array([[0, 1, 2],
+#        [1, 2, 3],
+#        [2, 3, 4]])
+```
+
+上述例子中的`a`和`b`一个是行数组(`a`)，一个是列数组(`b`)，得到的结果数组为(`3x3`).说明对于数组`a`而言拉伸了3行，对于数组`b`而言拉伸了3列，然后再进行加运算。
+
+上述的过程用可视化表示为:
+![broadcast visulized](../image/np_broadcast_visualized.png "Visualization of NumPy broadcasting")
+
+总结(summarize):  
+
+* 如果两个数组的维度的个数不一致，那么维度比较少的那个数组的shape会被另一个数组最左侧的shape填充为1。
+* 如果两个数组的任意维度都不匹配，那么数组中维度等于1的被拉伸等于另一个数组的维度
+* 如果数组任何维度大小不一致也不等于1，那么产生错误
+
+# <span id="np-comparsion">比较(Comparison)</span>
+
+
+
 
 # <span id="np-sorting">排序(Sorting)</span>
 
